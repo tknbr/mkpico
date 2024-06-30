@@ -1,18 +1,9 @@
 #include "FreeRTOS.h" /* Must come first. */
 #include "task.h"     /* RTOS task related API prototypes. */
 #include "pico/stdlib.h"
-
-/** Keystrokes crawler task
- * 
- * In charge of notifying the keys stroked
- */
-void keystrokes(void *pvParameters) {
-
-    // map GIOS to cols and rows
-
-    // while 1
-        // notify selected keys
-}
+#include "keyboard_internal.h"
+#include "keystrokes.h"
+#include <stdio.h>
 
 
 /** Central logic brain
@@ -49,7 +40,7 @@ void toggle_led(void *pvParameters) {
     // endless loop
     while (1) { 
     // turn on
-        gpio_put(PICO_DEFAULT_LED_PIN, 1);
+        gpio_put(PICO_DEFAULT_LED_PIN, ROW);
     // wait
         vTaskDelay(500);
     // turn off
@@ -66,6 +57,9 @@ int main() {
     stdio_init_all();
     // Define tasks
     xTaskCreate(toggle_led, "led", 250, NULL, 1, NULL); 
-    // Run scheduler    
+    xTaskCreate(keystrokes_task, "keystrokes", 550, NULL, 1, NULL);
+	// Run scheduler    
     vTaskStartScheduler();
+
+	while(1) {}
 }
