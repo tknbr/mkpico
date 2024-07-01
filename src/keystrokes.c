@@ -19,11 +19,11 @@ void keystrokes_init(void)
 	}
 
 	// Initialize row gpios
-	for (int i = 0; i < NUM_ROWS; ++i)
+	for (int j = 0; j < NUM_ROWS; ++j)
 	{
-		gpio_init(rows_gpios[i]);
-		gpio_set_dir(rows_gpios[i], GPIO_IN);
-		gpio_pull_down(rows_gpios[i]);
+		gpio_init(rows_gpios[j]);
+		gpio_set_dir(rows_gpios[j], GPIO_IN);
+		gpio_pull_down(rows_gpios[j]);
 	}
 }
 
@@ -32,10 +32,10 @@ void keystrokes_check(void)
 	for (int i = 0; i < NUM_COLUMNS; ++i)
 	{
 		gpio_put(columns_gpios[i], 1);
-
+		vTaskDelay(10);
 		for (int j = 0; j < NUM_ROWS; ++j)
 		{
-			if (gpio_get(rows_gpios[i]))
+			if (gpio_get(rows_gpios[j]))
 			{
 				printf("COL %d ROW %d selected\n", i, j);
 			}
@@ -52,6 +52,7 @@ void keystrokes_task(void *pvParameters)
 	while(1)
 	{
 		keystrokes_check();
-		vTaskDelay(200);
+		vTaskDelay(500);
+		printf("keystrokes check\n");
 	}
 }
