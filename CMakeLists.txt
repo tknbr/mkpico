@@ -16,6 +16,7 @@ pico_sdk_init()
 add_executable(mkpico
     src/main.c
 	src/keystrokes.c
+	src/brain.c
 	src/hooks.c
 )
 

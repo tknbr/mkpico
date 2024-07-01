@@ -1,7 +1,11 @@
 #include "FreeRTOS.h"
 #include "task.h"
+#include "queue.h"
 #include "pico/stdlib.h"
 #include <stdio.h>
+#include "keystrokes.h"
+
+extern QueueHandle_t keystroke_queue;
 
 #define NUM_COLUMNS 5
 #define NUM_ROWS 4
@@ -37,7 +41,11 @@ void keystrokes_check(void)
 		{
 			if (gpio_get(rows_gpios[j]))
 			{
-				printf("COL %d ROW %d selected\n", i, j);
+				keystroke_t keystroke;
+				keystroke.split = 0;
+				keystroke.col = i;
+				keystroke.row = j;
+				xQueueSend(keystroke_queue, &keystroke, 0);
 			}
 		}
 
@@ -52,7 +60,6 @@ void keystrokes_task(void *pvParameters)
 	while(1)
 	{
 		keystrokes_check();
-		vTaskDelay(500);
-		printf("keystrokes check\n");
+		vTaskDelay(200);
 	}
 }
