@@ -4,11 +4,9 @@
 #include "pico/stdlib.h"
 #include <stdio.h>
 #include "keystrokes.h"
+#include "task_internal.h"
 
 extern QueueHandle_t keystroke_queue;
-
-#define NUM_COLUMNS 5
-#define NUM_ROWS 4
 
 int columns_gpios[NUM_COLUMNS] = {5, 6, 7, 9, 10};
 int rows_gpios[NUM_ROWS] = {11, 12, 13, 14};
@@ -60,6 +58,6 @@ void keystrokes_task(void *pvParameters)
 	while(1)
 	{
 		keystrokes_check();
-		vTaskDelay(200);
+		vTaskDelay(TASK_DELAY_DEF);
 	}
 }

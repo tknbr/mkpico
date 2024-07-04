@@ -1,6 +1,9 @@
 #include "FreeRTOS.h"
 #include "queue.h"
 
+#define NUM_COLUMNS 5
+#define NUM_ROWS 4
+
 typedef struct keystroke_e {
 	int split;
 	int col;

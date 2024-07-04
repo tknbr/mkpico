@@ -5,7 +5,22 @@
 #include "stdio.h"
 #include "keystrokes.h"
 
+#define NUM_SPLITS 2
+#define NUM_LAYERS 1
+
 extern QueueHandle_t keystroke_queue;
+
+char key_mapping[NUM_LAYERS][NUM_SPLITS][NUM_ROWS][NUM_COLUMNS] = 
+	  {{  {{'q', 'w', 'e', 'r', 't'},
+		   {'a', 's', 'd', 'f', 'g'},
+		   {'z', 'x', 'c', 'v', 'b'},
+		   {NULL, NULL, NULL, '-', '-'}},
+
+          {{'p', 'o', 'i', 'u', 'y'},
+           {'-', 'l', 'k', 'j', 'h'},
+		   {'-', '-', '-', 'm', 'n'},
+		   {NULL, NULL, NULL, '-', '-'}} }};
+
 
 void brain_init(void)
 {

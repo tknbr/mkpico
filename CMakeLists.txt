@@ -18,6 +18,7 @@ add_executable(mkpico
 	src/keystrokes.c
 	src/brain.c
 	src/hooks.c
+	src/comm_internal.c
 )
 
 target_include_directories(mkpico PRIVATE
@@ -27,6 +28,7 @@ target_include_directories(mkpico PRIVATE
 
 target_link_libraries(mkpico PRIVATE
     pico_stdlib
+	hardware_i2c
     FreeRTOS-Kernel
     FreeRTOS-Kernel-Heap4
 )
