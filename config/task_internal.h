@@ -1,5 +1,5 @@
 
-#define TASK_DELAY_DEF 200
+#define TASK_DELAY_DEF 100
 #define TASK_PRIO_DEF 1
 #define TASK_STACK_DEF 250
 #define TASK_PARAMS_DEF NULL

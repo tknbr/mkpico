@@ -6,10 +6,15 @@
 #include "keystrokes.h"
 #include "task_internal.h"
 
+#define PRESSED true
+#define UNPRESSED false
+
 extern QueueHandle_t keystroke_queue;
 
 int columns_gpios[NUM_COLUMNS] = {5, 6, 7, 9, 10};
 int rows_gpios[NUM_ROWS] = {11, 12, 13, 14};
+
+bool switch_pressed[NUM_COLUMNS][NUM_ROWS] = {{0}};
 
 void keystrokes_init(void)
 {
@@ -34,19 +39,22 @@ void keystrokes_check(void)
 	for (int i = 0; i < NUM_COLUMNS; ++i)
 	{
 		gpio_put(columns_gpios[i], 1);
-		vTaskDelay(10);
+	    sleep_us(100);	
 		for (int j = 0; j < NUM_ROWS; ++j)
 		{
 			if (gpio_get(rows_gpios[j]))
 			{
+				switch_pressed[i][j] = PRESSED;		
+			} else if (switch_pressed[i][j]){
+				switch_pressed[i][j] = UNPRESSED;		
 				keystroke_t keystroke;
 				keystroke.split = 0;
 				keystroke.col = i;
 				keystroke.row = j;
 				xQueueSend(keystroke_queue, &keystroke, 0);
 			}
-		}
-
+		
+		} 
 		gpio_put(columns_gpios[i], 0);
 	}
 }
