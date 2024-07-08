@@ -7,10 +7,11 @@
 #include "comm_internal.h"
 #include "brain.h"
 #include <stdio.h>
-
+#include "comm_external.h"
 
 
 #define GPIO_OUT 1
+
 void toggle_led(void *pvParameters) {
     
     // init gpio
@@ -33,8 +34,9 @@ void toggle_led(void *pvParameters) {
 int main() {
 
     // Initialize pi
-    stdio_init_all();
-    // Define tasks
+    //stdio_init_all();
+    
+	// Define tasks
     xTaskCreate(toggle_led,
 				"led",
 				TASK_DEFS); 
@@ -46,6 +48,9 @@ int main() {
 				TASK_DEFS);
 	xTaskCreate(comm_internal_task,
 				"comm_internal",
+				TASK_DEFS);
+	xTaskCreate(comm_external_task,
+				"comm_external",
 				TASK_DEFS);
 	// Run scheduler    
     vTaskStartScheduler();

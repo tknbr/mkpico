@@ -19,6 +19,8 @@ add_executable(mkpico
 	src/brain.c
 	src/hooks.c
 	src/comm_internal.c
+	src/comm_external.c
+	src/usb_descriptors.c
 )
 
 target_include_directories(mkpico PRIVATE
@@ -29,6 +31,8 @@ target_include_directories(mkpico PRIVATE
 target_link_libraries(mkpico PRIVATE
     pico_stdlib
 	hardware_i2c
+	tinyusb_device
+	tinyusb_board
     FreeRTOS-Kernel
     FreeRTOS-Kernel-Heap4
 )
