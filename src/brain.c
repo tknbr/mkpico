@@ -6,6 +6,7 @@
 #include "keystrokes.h"
 #include "comm_external.h"
 #include "class/hid/hid_device.h"
+#include "keymap.h"
 
 #define NUM_SPLITS 2
 #define NUM_LAYERS 1
@@ -13,22 +14,18 @@
 extern QueueHandle_t keystroke_queue;
 extern QueueHandle_t comm_external_queue;
 
-char key_mapping[NUM_LAYERS][NUM_SPLITS][NUM_ROWS][NUM_COLUMNS] = 
-	  {{  {{'q', 'w', 'e', 'r', 't'},
-		   {'a', 's', 'd', 'f', 'g'},
-		   {'z', 'x', 'c', 'v', 'b'},
-		   {NULL, NULL, NULL, '-', '-'}},
+extern size_t keymap_layers;
+extern uint8_t keymap[][NUM_ROWS][NUM_COLS];
 
-          {{'p', 'o', 'i', 'u', 'y'},
-           {'-', 'l', 'k', 'j', 'h'},
-		   {'-', '-', '-', 'm', 'n'},
-		   {NULL, NULL, NULL, '-', '-'}} }};
-
+uint8_t layer;
 
 void brain_init(void)
 {
 	// init queues
 	keystroke_queue = xQueueCreate(10, sizeof(keystroke_t));
+
+	// init layer
+	layer = 0;
 }
 
 void brain_check(void)
@@ -38,24 +35,7 @@ void brain_check(void)
 	while(pdTRUE == xQueueReceive(keystroke_queue, &keystroke, 0))
 	{
 		//printf("Keystroke received in brain, col %d, row %d \n", keystroke.col, keystroke.row);
-		uint8_t key;
-		switch(keystroke.row) {
-			case 0: 
-				key = HID_KEY_A;
-				break;
-			case 1:
-				key = HID_KEY_B;
-				break;
-			case 2:
-				key = HID_KEY_C;
-				break;
-			case 3:
-				key = HID_KEY_D;
-				break;
-			default:
-				key = HID_KEY_E;
-				break;
-		}
+		uint8_t key = keymap[layer][keystroke.row][keystroke.col];
 		xQueueSend(comm_external_queue, &key, 0);
 	}
 }

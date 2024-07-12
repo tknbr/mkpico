@@ -21,10 +21,12 @@ add_executable(mkpico
 	src/comm_internal.c
 	src/comm_external.c
 	src/usb_descriptors.c
+	config/selenium_s/keymap.c
 )
 
 target_include_directories(mkpico PRIVATE
     config/
+	config/selenium_s/
 	include/
 )
 
