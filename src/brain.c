@@ -5,14 +5,20 @@
 #include "stdio.h"
 #include "keystrokes.h"
 #include "comm_external.h"
+#include "comm_internal.h"
 #include "class/hid/hid_device.h"
 #include "keymap.h"
+#include "compile.h"
 
 #define NUM_SPLITS 2
 #define NUM_LAYERS 1
 
 extern QueueHandle_t keystroke_queue;
 extern QueueHandle_t comm_external_queue;
+
+#if defined(ROLE_SLAVE)
+extern QueueHandle_t comm_internal_queue;
+#endif
 
 extern size_t keymap_layers;
 extern uint8_t keymap[][NUM_ROWS][NUM_COLS];
@@ -34,14 +40,19 @@ void brain_check(void)
 	keystroke_t keystroke;
 	while(pdTRUE == xQueueReceive(keystroke_queue, &keystroke, 0))
 	{
-		//printf("Keystroke received in brain, col %d, row %d \n", keystroke.col, keystroke.row);
+		#if defined(ROLE_MASTER)
 		uint8_t key = keymap[layer][keystroke.row][keystroke.col];
+		//uint8_t key = HID_KEY_Q;
 		xQueueSend(comm_external_queue, &key, 0);
+
+		
+		#endif
 	}
 }
 
 void brain_task(void *pvParameters)
 {
+	//led_blink();
 	brain_init();
 	while(1)
 	{

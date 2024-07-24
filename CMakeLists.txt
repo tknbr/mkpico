@@ -21,6 +21,7 @@ add_executable(mkpico
 	src/comm_internal.c
 	src/comm_external.c
 	src/usb_descriptors.c
+	src/led.c
 	config/selenium_s/keymap.c
 )
 

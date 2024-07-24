@@ -5,21 +5,23 @@
 #include <stdio.h>
 #include "keystrokes.h"
 #include "task_internal.h"
+#include "comm_internal.h"
+#include "gpios.h"
+#include "keymap.h"
 
-#define PRESSED true
-#define UNPRESSED false
+#define UNPRESSED 0
 
 extern QueueHandle_t keystroke_queue;
 
-int columns_gpios[NUM_COLUMNS] = {5, 6, 7, 9, 10};
-int rows_gpios[NUM_ROWS] = {11, 12, 13, 14};
+extern uint8_t columns_gpios[NUM_COLS];
+extern uint8_t rows_gpios[NUM_ROWS];
 
-bool switch_pressed[NUM_COLUMNS][NUM_ROWS] = {{0}};
+__uint16_t switch_pressed[NUM_COLS][NUM_ROWS] = {{0}};
 
 void keystrokes_init(void)
 {
 	// Initializes column gpios
-	for (int i = 0; i < NUM_COLUMNS; ++i)
+	for (int i = 0; i < NUM_COLS; ++i)
 	{
 		gpio_init(columns_gpios[i]);
 		gpio_set_dir(columns_gpios[i], GPIO_OUT);
@@ -34,9 +36,22 @@ void keystrokes_init(void)
 	}
 }
 
+
+void keystroke_send(keystroke_t *keystroke)
+{
+	#if defined(ROLE_MASTER)
+	xQueueSend(keystroke_queue, keystroke, 0);
+	#endif
+
+	#if defined(ROLE_SLAVE)
+	keystroke->col += 5;
+	comm_internal_controller_send(keystroke);
+	#endif
+}
+
 void keystrokes_check(void)
 {
-	for (int i = 0; i < NUM_COLUMNS; ++i)
+	for (int i = 0; i < NUM_COLS; ++i)
 	{
 		gpio_put(columns_gpios[i], 1);
 	    sleep_us(100);	
@@ -44,14 +59,33 @@ void keystrokes_check(void)
 		{
 			if (gpio_get(rows_gpios[j]))
 			{
-				switch_pressed[i][j] = PRESSED;		
+				switch_pressed[i][j] += 1;
+
+				if (switch_pressed[i][j] == 5)
+				{
+					keystroke_t keystroke;
+					keystroke.split = 0;
+					keystroke.col = i;
+					keystroke.row = j;
+					keystroke_send(&keystroke);
+				} else if (switch_pressed[i][j] > 5 && switch_pressed[i][j] % 3 == 0)
+				{
+					keystroke_t keystroke;
+					keystroke.split = 0;
+					keystroke.col = i;
+					keystroke.row = j;
+					keystroke_send(&keystroke);
+				}
 			} else if (switch_pressed[i][j]){
-				switch_pressed[i][j] = UNPRESSED;		
-				keystroke_t keystroke;
-				keystroke.split = 0;
-				keystroke.col = i;
-				keystroke.row = j;
-				xQueueSend(keystroke_queue, &keystroke, 0);
+				if (switch_pressed[i][j] > 0 && switch_pressed[i][j] < 5)
+				{
+					keystroke_t keystroke;
+					keystroke.split = 0;
+					keystroke.col = i;
+					keystroke.row = j;
+					keystroke_send(&keystroke);
+				}
+				switch_pressed[i][j] = UNPRESSED;
 			}
 		
 		} 

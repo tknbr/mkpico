@@ -1,15 +1,17 @@
 #include "FreeRTOS.h"
 #include "queue.h"
 
-#define NUM_COLUMNS 5
-#define NUM_ROWS 4
+#ifndef _KEYSTROKES_H
+#define _KEYSTROKES_H
 
 typedef struct keystroke_e {
 	int split;
-	int col;
-	int row;
+	unsigned char col;
+	unsigned char row;
 } keystroke_t;
 
 QueueHandle_t keystroke_queue;
 
 void keystrokes_task(void *pvParameters);
+
+#endif // _KEYSTROKES_H

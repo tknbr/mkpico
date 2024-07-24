@@ -31,13 +31,13 @@ bool comm_external_send_usb(uint8_t *key)
 	uint8_t key_report[6] = {0};
 	key_report[0] = *key;
 
-	tud_hid_keyboard_report(0, 0, key_report);
+	return tud_hid_keyboard_report(0, 0, key_report);
 }
 
 bool comm_external_clear_usb_report(void)
 {
 	uint8_t key_report[6] = {0};
-	tud_hid_keyboard_report(0, 0, key_report);
+	return tud_hid_keyboard_report(0, 0, key_report);
 }
 
 void comm_external_task(void *pvParameters)
