@@ -16,7 +16,7 @@ void comm_external_init(void)
 {
 	board_init();
 	tusb_init();
-	comm_external_queue = xQueueCreate(10, sizeof(uint8_t));
+	comm_external_queue = xQueueCreate(QUEUE_DEF_SIZE, sizeof(uint8_t));
 }
 
 bool comm_external_key_received(uint8_t *key)

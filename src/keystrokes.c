@@ -61,14 +61,14 @@ void keystrokes_check(void)
 			{
 				switch_pressed[i][j] += 1;
 
-				if (switch_pressed[i][j] == 5)
+				if (switch_pressed[i][j] == 4)
 				{
 					keystroke_t keystroke;
 					keystroke.split = 0;
 					keystroke.col = i;
 					keystroke.row = j;
 					keystroke_send(&keystroke);
-				} else if (switch_pressed[i][j] > 5 && switch_pressed[i][j] % 3 == 0)
+				} else if (switch_pressed[i][j] > 7)
 				{
 					keystroke_t keystroke;
 					keystroke.split = 0;
@@ -77,7 +77,7 @@ void keystrokes_check(void)
 					keystroke_send(&keystroke);
 				}
 			} else if (switch_pressed[i][j]){
-				if (switch_pressed[i][j] > 0 && switch_pressed[i][j] < 5)
+				if (switch_pressed[i][j] > 0 && switch_pressed[i][j] < 4)
 				{
 					keystroke_t keystroke;
 					keystroke.split = 0;

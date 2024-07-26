@@ -11,7 +11,7 @@ void led_init(void)
     gpio_init(PICO_DEFAULT_LED_PIN);
     gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
 
-    led_queue = xQueueCreate(10, sizeof(bool));
+    led_queue = xQueueCreate(QUEUE_DEF_SIZE, sizeof(bool));
     led_initialized = true;
 }
 

@@ -9,6 +9,7 @@
 #include "class/hid/hid_device.h"
 #include "keymap.h"
 #include "compile.h"
+#include "task_internal.h"
 
 #define NUM_SPLITS 2
 #define NUM_LAYERS 1
@@ -28,7 +29,7 @@ uint8_t layer;
 void brain_init(void)
 {
 	// init queues
-	keystroke_queue = xQueueCreate(10, sizeof(keystroke_t));
+	keystroke_queue = xQueueCreate(QUEUE_DEF_SIZE, sizeof(keystroke_t));
 
 	// init layer
 	layer = 0;
