@@ -74,15 +74,51 @@ uint8_t const* tud_hid_descriptor_report_cb(uint8_t instance) {
     return desc_hid_report;
 }
 
-// Callback invoked when received GET REPORT request
+// This callback will be invoked when the host sends a SET_PROTOCOL request to switch between these modes.
+void tud_hid_boot_mode_cb(uint8_t instance, bool boot_mode)
+{
+    if (boot_mode)
+    {
+        // Prepare to operate in boot mode
+        // Example: Simplify the input report format to the 8-byte standard for keyboards
+        // Modify your report structure or internal state as needed
+    }
+    else
+    {
+        // Switch to normal HID report protocol
+        // Example: Enable additional keys or features in your reports
+        // Restore or adjust the report structure for full HID functionality
+    }
+}
+
+/** This callback is invoked when the host sends a GET_REPORT request. It is used to handle report requests from the host.
+ * instance: The HID interface instance.
+ * report_id: The ID of the report (if the device supports multiple report IDs).
+ * report_type: The type of report (Input, Output, Feature).
+ * buffer: The buffer where the report data should be stored.
+ * reqlen: The length of the requested report.
+ * Returns: The actual length of the report.
+*/
 uint16_t tud_hid_get_report_cb(uint8_t instance, uint8_t report_id, hid_report_type_t report_type, uint8_t* buffer, uint16_t reqlen) {
-    // Not used in this example, so we return 0
+    if (report_type == HID_REPORT_TYPE_OUTPUT)
+    {
+        // Return the current state of the keyboard LEDs (e.g., Num Lock, Caps Lock)
+        buffer[0] = 0x02; // Example: Caps Lock is on (0x02)
+        return 1; // Report length for LEDs (1 byte)
+    }
     return 0;
 }
 
-// Callback invoked when received SET REPORT request or via OUT endpoint
+
+/** This callback is invoked when the host sends a SET_REPORT request to the HID interface. It is used to handle report requests from the host.
+ * instance: The HID interface instance.
+ * report_id: The ID of the report (if the device supports multiple report IDs).
+ * report_type: The type of report (Input, Output, Feature).
+ * buffer: The buffer where the report data should be stored.
+ * bufsize: The size of the report data
+*/
 void tud_hid_set_report_cb(uint8_t instance, uint8_t report_id, hid_report_type_t report_type, uint8_t const* buffer, uint16_t bufsize) {
-    // Not used in this example, so we do nothing
+    // I don't have any leds to indicate things like CAPS so, I won't care about this now.
 }
 
 
