@@ -59,12 +59,11 @@ bool comm_external_clear_usb_report(void)
 void comm_external_task(void *pvParameters)
 {
 	comm_external_init();
-	
-	TickType_t task_delay = TASK_DELAY_DEF;
 	bool usb_sent = false;
 
 	while(1)
 	{
+		// No task delay needed, tud_task should already do the work for us.
 		tud_task();
 		uint8_t key_report[KEY_REPORT_SIZE] = {0};
 
@@ -78,14 +77,7 @@ void comm_external_task(void *pvParameters)
 			{
 				comm_external_send_usb(&key_report[0]);
 				usb_sent = true;
-				task_delay = TASK_DELAY_DEF;
-			}
-			else
-			{
-				task_delay = TASK_DELAY_DEF;
 			}
 		}
-
-		vTaskDelay(task_delay);
 	}
 }
