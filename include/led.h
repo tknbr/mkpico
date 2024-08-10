@@ -9,3 +9,7 @@ QueueHandle_t led_queue;
 void led_task(void *pvParameters);
 
 void led_blink(void);
+
+void led_on(void);
+
+void led_off(void);

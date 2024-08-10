@@ -49,12 +49,14 @@ void brain_check(void)
                 if (layer+1 < keymap_layers)
                 {
                     ++layer;
+                    led_on();
                 }
                 break;
             case K_LYRDWN:
                 if (layer-1 >= 0)
                 {
                     --layer;
+                    led_off();
                 }
                 break;
             case K_NULL:

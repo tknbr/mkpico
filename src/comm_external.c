@@ -8,6 +8,7 @@
 #include "comm_external.h"
 #include "task_internal.h"
 #include "usb_descriptors.h"
+#include "keys.h"
 
 #define KEY_REPORT_SIZE 6
 
@@ -62,13 +63,28 @@ bool comm_external_key_received(uint8_t *key)
 bool comm_external_send_usb(uint8_t *key)
 {
     uint8_t key_report[6] = {0};
+    uint8_t modifier = 0;
     
     for (int i = 0; i < KEY_REPORT_SIZE; ++i)
     {
-        key_report[i] = key[i];
+        switch (key[i])
+        {
+            case K_SHFT:
+                modifier |= MOD_SHFT;
+                break;
+            case K_CTRL:
+                modifier |= MOD_CTRL;
+                break;
+            case K_ALT:
+                modifier |= MOD_ALT;
+                break;
+            default:
+                key_report[i] = key[i];
+                break;
+        }
     }
 
-    return tud_hid_keyboard_report(0, 0, key_report);
+    return tud_hid_keyboard_report(0, modifier, key_report);
 }
 
 bool comm_external_clear_usb_report(void)

@@ -38,6 +38,16 @@ void led_check(void)
     }
 }
 
+void led_on(void)
+{
+    gpio_put(PICO_DEFAULT_LED_PIN, 1);
+}
+
+void led_off(void)
+{
+    gpio_put(PICO_DEFAULT_LED_PIN, 0);
+}
+
 void led_task(void *pvParameters)
 {
     led_init();
