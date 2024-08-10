@@ -15,24 +15,24 @@ int main() {
     // Initialize pi
     //stdio_init_all();
     
-	// Define tasks
+    // Define tasks
     xTaskCreate(led_task,
-				"led",
-				TASK_DEFS); 
-	xTaskCreate(brain_task,
-				"brain",
-				TASK_DEFS);
+                "led",
+                TASK_DEFS); 
+    xTaskCreate(brain_task,
+                "brain",
+                TASK_DEFS);
     xTaskCreate(keystrokes_task,
-				"keystrokes",
-				TASK_DEFS);
-	xTaskCreate(comm_external_task,
-				"comm_external",
-				TASK_DEFS);
+                "keystrokes",
+                TASK_DEFS);
+    xTaskCreate(comm_external_task,
+                "comm_external",
+                TASK_DEFS);
 
-	comm_internal_init();
+    comm_internal_init();
 
-	// Run scheduler    
+    // Run scheduler    
     vTaskStartScheduler();
 
-	while(1) {}
+    while(1) {}
 }

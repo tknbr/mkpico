@@ -15,27 +15,27 @@ pico_sdk_init()
 # Configuration projects
 add_executable(mkpico
     src/main.c
-	src/keystrokes.c
-	src/brain.c
-	src/hooks.c
-	src/comm_internal.c
-	src/comm_external.c
-	src/usb_descriptors.c
-	src/led.c
-	config/selenium_s/keymap.c
+    src/keystrokes.c
+    src/brain.c
+    src/hooks.c
+    src/comm_internal.c
+    src/comm_external.c
+    src/usb_descriptors.c
+    src/led.c
+    config/selenium_s/keymap.c
 )
 
 target_include_directories(mkpico PRIVATE
     config/
-	config/selenium_s/
-	include/
+    config/selenium_s/
+    include/
 )
 
 target_link_libraries(mkpico PRIVATE
     pico_stdlib
-	hardware_i2c
-	tinyusb_device
-	tinyusb_board
+    hardware_i2c
+    tinyusb_device
+    tinyusb_board
     FreeRTOS-Kernel
     FreeRTOS-Kernel-Heap4
 )

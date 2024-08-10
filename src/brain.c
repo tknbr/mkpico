@@ -28,36 +28,36 @@ uint8_t layer;
 
 void brain_init(void)
 {
-	// init queues
-	keystroke_queue = xQueueCreate(QUEUE_DEF_SIZE, sizeof(keystroke_t));
+    // init queues
+    keystroke_queue = xQueueCreate(QUEUE_DEF_SIZE, sizeof(keystroke_t));
 
-	// init layer
-	layer = 0;
+    // init layer
+    layer = 0;
 }
 
 void brain_check(void)
 {
-	// check queues
-	keystroke_t keystroke;
-	while(pdTRUE == xQueueReceive(keystroke_queue, &keystroke, 0))
-	{
-		#if defined(ROLE_MASTER)
-		uint8_t key = keymap[layer][keystroke.row][keystroke.col];
-		//uint8_t key = HID_KEY_Q;
-		xQueueSend(comm_external_queue, &key, 0);
+    // check queues
+    keystroke_t keystroke;
+    while(pdTRUE == xQueueReceive(keystroke_queue, &keystroke, 0))
+    {
+        #if defined(ROLE_MASTER)
+        uint8_t key = keymap[layer][keystroke.row][keystroke.col];
+        //uint8_t key = HID_KEY_Q;
+        xQueueSend(comm_external_queue, &key, 0);
 
-		
-		#endif
-	}
+        
+        #endif
+    }
 }
 
 void brain_task(void *pvParameters)
 {
-	//led_blink();
-	brain_init();
-	while(1)
-	{
-		brain_check();
-		vTaskDelay(200);
-	}
+    //led_blink();
+    brain_init();
+    while(1)
+    {
+        brain_check();
+        vTaskDelay(200);
+    }
 }

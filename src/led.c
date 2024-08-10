@@ -20,7 +20,7 @@ void led_blink(void)
     if (led_initialized)
     {
         bool test = 1;
-	    xQueueSend(led_queue, &test, 0);
+        xQueueSend(led_queue, &test, 0);
     }
 }
 

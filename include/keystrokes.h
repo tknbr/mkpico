@@ -5,9 +5,9 @@
 #define _KEYSTROKES_H
 
 typedef struct keystroke_e {
-	int split;
-	unsigned char col;
-	unsigned char row;
+    int split;
+    unsigned char col;
+    unsigned char row;
 } keystroke_t;
 
 QueueHandle_t keystroke_queue;

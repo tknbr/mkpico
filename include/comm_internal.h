@@ -33,12 +33,12 @@
 QueueHandle_t comm_internal_queue;
 
 typedef struct I2C_PACKET_HEADER_e {
-	uint8_t operation;
-	uint8_t len;
+    uint8_t operation;
+    uint8_t len;
 } I2C_PACKET_HEADER_t;
 
 typedef struct I2C_PACKET_CRC_e {
-	uint8_t crc;
+    uint8_t crc;
 } I2C_PACKET_CRC_t;
 
 
