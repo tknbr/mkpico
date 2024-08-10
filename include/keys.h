@@ -4,6 +4,7 @@
 
 #include "class/hid/hid_device.h" 
 
+// Letters
 #define K_A HID_KEY_A
 #define K_B HID_KEY_B
 #define K_C HID_KEY_C
@@ -32,6 +33,27 @@
 #define K_Z HID_KEY_Z
 
 #define K_BSPC HID_KEY_BACKSPACE
+#define K_NO HID_KEY_SEMICOLON
+
+// Numbers
+#define K_0 HID_KEY_0
+#define K_1 HID_KEY_1
+#define K_2 HID_KEY_2
+#define K_3 HID_KEY_3
+#define K_4 HID_KEY_4
+#define K_5 HID_KEY_5
+#define K_6 HID_KEY_6
+#define K_7 HID_KEY_7
+#define K_8 HID_KEY_8
+#define K_9 HID_KEY_9
+
+// Arithmetic
+
+#define K_MIN HID_KEY_MINUS
+#define K_EQU HID_KEY_EQUAL
+
+
+// Punctuation
 #define K_TAB  HID_KEY_TAB
 #define K_SPC  HID_KEY_SPACE
 #define K_ENT  HID_KEY_ENTER
@@ -39,7 +61,28 @@
 #define K_DOT  HID_KEY_PERIOD
 #define K_SLSH HID_KEY_SLASH
 #define K_SCLN HID_KEY_SEMICOLON
+#define K_BRAL HID_KEY_BRACKET_LEFT
+#define K_BRAR HID_KEY_BRACKET_RIGHT
+#define K_BKSL HID_KEY_BACKSLASH
+#define K_HASH HID_KEY_KEYPAD_HASH
 
-#define K_NO HID_KEY_SEMICOLON
+// Arrows
+#define K_A_L HID_KEY_ARROW_LEFT
+#define K_A_R HID_KEY_ARROW_RIGHT
+#define K_A_U HID_KEY_ARROW_UP
+#define K_A_D HID_KEY_ARROW_DOWN
+
+// Modifiers
+#define K_SHFT HID_KEY_SHIFT_RIGHT
+#define K_CTRL HID_KEY_CONTROL_RIGHT
+#define K_ALT  HID_KEY_ALT_RIGHT
+
+#define K_ESC HID_KEY_ESCAPE
+
+#define K_LYRUP  0xA5
+#define K_LYRDWN 0xA6
+
+// NULL
+#define K_NULL  HID_KEY_NONE
 
 #endif

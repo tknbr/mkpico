@@ -43,10 +43,26 @@ void brain_check(void)
     {
         #if defined(ROLE_MASTER)
         uint8_t key = keymap[layer][keystroke.row][keystroke.col];
-        //uint8_t key = HID_KEY_Q;
-        xQueueSend(comm_external_queue, &key, 0);
-
-        
+        switch (key)
+        {
+            case K_LYRUP:
+                if (layer+1 < keymap_layers)
+                {
+                    ++layer;
+                }
+                break;
+            case K_LYRDWN:
+                if (layer-1 >= 0)
+                {
+                    --layer;
+                }
+                break;
+            case K_NULL:
+                break;
+            default:
+                xQueueSend(comm_external_queue, &key, 0);
+                break;
+        }        
         #endif
     }
 }

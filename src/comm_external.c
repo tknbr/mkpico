@@ -19,6 +19,21 @@ void comm_external_init(void)
     comm_external_queue = xQueueCreate(QUEUE_DEF_SIZE, sizeof(uint8_t));
 }
 
+bool comm_external_key_exists_in_report(uint8_t *key, int index)
+{
+    bool ret = false;
+
+    for(int i = index-1; i > 0; --i)
+    {
+        if (key[index] == key[i])
+        {
+            ret = true;
+        }
+    }
+
+    return ret;
+}
+
 bool comm_external_key_received(uint8_t *key)
 {
     int key_report_index = 0;
@@ -26,13 +41,19 @@ bool comm_external_key_received(uint8_t *key)
 
     while (pdTRUE == xQueueReceive(comm_external_queue, &key[key_report_index], 0))
     {
-        key_report_index++;
-        ret = true;
+        // if we already have this key in the report, don't repeat it
+        if (!comm_external_key_exists_in_report(key, key_report_index))
+        {
+            key_report_index++;
+            ret = true;
+        }
+
         if (key_report_index >= KEY_REPORT_SIZE) 
         {
             // reached limit, return
             break;
         }
+        
     }
 
     return ret;
