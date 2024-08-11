@@ -1,15 +1,25 @@
+// FreeRTOS includes
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
+
+// Pico SDk includes
 #include "pico/stdlib.h"
-#include <stdio.h>
-#include "tusb.h"
 #include "bsp/board.h"
+
+// General C includes
+#include "stdio.h"
+
+// TinyUSB includes
+#include "tusb.h"
+
+// Project includes
 #include "comm_external.h"
 #include "task_internal.h"
 #include "usb_descriptors.h"
 #include "keys.h"
 
+// Report size defined by tinyUSB
 #define KEY_REPORT_SIZE 6
 
 

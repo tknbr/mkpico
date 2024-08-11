@@ -1,22 +1,35 @@
+// FreeRTOS includes
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
+
+// Pico SDk includes
 #include "pico/stdlib.h"
-#include <stdio.h>
+
+// General C includes
+#include "stdio.h"
+
+// Project includes
 #include "keystrokes.h"
 #include "task_internal.h"
 #include "comm_internal.h"
 #include "gpios.h"
 #include "keymap.h"
 
-#define UNPRESSED 0
 
+#define UNPRESSED 0
+#define PRESSED 1
+
+// Queue used to send the keystrokes to the brain
 extern QueueHandle_t keystroke_queue;
 
+// GPIOs linked to each col
 extern uint8_t columns_gpios[NUM_COLS];
+// GPIOs linked to each row
 extern uint8_t rows_gpios[NUM_ROWS];
 
-__uint16_t switch_pressed[NUM_COLS][NUM_ROWS] = {{0}};
+// Matrix to store pressed info
+__uint16_t switch_pressed[NUM_COLS][NUM_ROWS] = {{UNPRESSED}};
 
 void keystrokes_init(void)
 {
@@ -39,11 +52,14 @@ void keystrokes_init(void)
 
 void keystroke_send(keystroke_t *keystroke)
 {
-    #if defined(ROLE_MASTER)
+    #if defined(ROLE_CONTROLLER)
+    // If role is controller, send the keystroke to the brain
     xQueueSend(keystroke_queue, keystroke, 0);
     #endif
 
-    #if defined(ROLE_SLAVE)
+    #if defined(ROLE_PERIPHERAL)
+    // If role is peripheral split, send the keystroke to the 
+    // internal communicator
     keystroke->col += 5;
     comm_internal_controller_send(keystroke);
     #endif

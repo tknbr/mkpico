@@ -1,16 +1,26 @@
-#include "FreeRTOS.h" 
-#include "task.h" 
+// FreeRTOS includes
+#include "FreeRTOS.h"
+#include "task.h"
 #include "queue.h"
+
+// Pico SDk includes
 #include "pico/stdlib.h"
 #include "pico/binary_info.h"
+
+// General C includes
 #include "stdio.h"
+
+// TinyUSB includes
+#include "tusb.h"
+
+// Project includes
 #include "task_internal.h"
 #include "comm_internal.h"
 #include "compile.h"
 #include "led.h"
 
+// Queue used to receive/send keystrokes from other half
 extern QueueHandle_t keystroke_queue;
-extern QueueHandle_t comm_internal_queue;
 
 
 #if defined(COMM_INTERNAL_I2C_PERIPHERAL)
@@ -39,8 +49,6 @@ void i2c1_irq_handler() {
             keystroke.col = 0xff;
             keystroke.row = 0xff;
             start = false;
-
-            //led_blink();
         } else {
             keystroke.col = 0xff;
             keystroke.row = 0xff;
@@ -139,7 +147,6 @@ void comm_internal_controller_send(keystroke_t *keystroke)
                         1,
                         false,
                         COMM_INTERNAL_WRITE_TIMEOUT);
-    //led_blink();
 }
 
 void comm_internal_controller_init()
@@ -157,8 +164,6 @@ void comm_internal_controller_init()
 
     // Make the I2C pins available to picotool
     bi_decl(bi_2pins_with_func(COMM_INTERNAL_I2C_SDA_GPIO, COMM_INTERNAL_I2C_SCL_GPIO, GPIO_FUNC_I2C));
-
-    //led_blink();
 }
 
 #endif // COMM_INTERNAL_I2C_CONTROLLER

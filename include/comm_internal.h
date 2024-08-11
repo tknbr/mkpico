@@ -3,11 +3,11 @@
 #include "keystrokes.h"
 #include <stdint.h> // uint8_t
 
-#if defined(ROLE_MASTER)
+#if defined(ROLE_CONTROLLER)
 #  define COMM_INTERNAL_I2C_PERIPHERAL
 #endif
 
-#if defined(ROLE_SLAVE)
+#if defined(ROLE_PERIPHERAL)
 #  define COMM_INTERNAL_I2C_CONTROLLER
 #endif
 
@@ -29,8 +29,6 @@
 #define I2C_INTR_STAT_RX_FULL   0x00000004
 #define I2C_INTR_MASK_READ_REQ  0x00000020
 #define I2C_INTR_MASK_RX_FULL   0x00000004
-
-QueueHandle_t comm_internal_queue;
 
 typedef struct I2C_PACKET_HEADER_e {
     uint8_t operation;

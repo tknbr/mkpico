@@ -1,4 +1,4 @@
 
-#define ROLE_MASTER
+#define ROLE_CONTROLLER
 
-//#define ROLE_SLAVE
+//#define ROLE_PERIPHERAL

@@ -1,29 +1,32 @@
+// FreeRTOS includes
 #include "FreeRTOS.h"
 #include "task.h"
 #include "queue.h"
+
+// Pico SDk includes
 #include "pico/stdlib.h"
+
+// General C includes
 #include "stdio.h"
+
+// Project includes
 #include "keystrokes.h"
 #include "comm_external.h"
 #include "comm_internal.h"
-#include "class/hid/hid_device.h"
 #include "keymap.h"
 #include "compile.h"
 #include "task_internal.h"
 
-#define NUM_SPLITS 2
-#define NUM_LAYERS 1
-
+// Queue used to receive keystrokes
 extern QueueHandle_t keystroke_queue;
+// Queue used to send keys externaly
 extern QueueHandle_t comm_external_queue;
-
-#if defined(ROLE_SLAVE)
-extern QueueHandle_t comm_internal_queue;
-#endif
-
+// Number of layers available
 extern size_t keymap_layers;
+// Keymap with the relation row/col key
 extern uint8_t keymap[][NUM_ROWS][NUM_COLS];
 
+// Current layer
 uint8_t layer;
 
 void brain_init(void)
@@ -41,7 +44,6 @@ void brain_check(void)
     keystroke_t keystroke;
     while(pdTRUE == xQueueReceive(keystroke_queue, &keystroke, 0))
     {
-        #if defined(ROLE_MASTER)
         uint8_t key = keymap[layer][keystroke.row][keystroke.col];
         switch (key)
         {
@@ -64,18 +66,16 @@ void brain_check(void)
             default:
                 xQueueSend(comm_external_queue, &key, 0);
                 break;
-        }        
-        #endif
+        }
     }
 }
 
 void brain_task(void *pvParameters)
 {
-    //led_blink();
     brain_init();
     while(1)
     {
         brain_check();
-        vTaskDelay(200);
+        vTaskDelay(TASK_DELAY_DEF);
     }
 }
