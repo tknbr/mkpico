@@ -45,7 +45,7 @@ The development of MKPico and the Selenium S keyboard was greatly influenced and
 
 - **Mechanical Keyboard Enthusiasts on GitHub**: The numerous open-source keyboard projects and libraries available on GitHub have been instrumental in shaping the direction of MKPico. Special thanks to repositories like [QMK Firmware](https://github.com/qmk/qmk_firmware), which provided insight into advanced keyboard features and firmware structure.
   
-- **YouTube Content Creators**: Channels such as [Thomas Baart (Splitkb)](https://www.youtube.com/channel/UCmB5SmLgtOkv3jQUeKy6y0g), [Ben Vallack](https://www.youtube.com/c/BenVallack), and [Build Guide](https://www.youtube.com/c/BuildGuide) have offered detailed build guides, reviews, and deep dives into keyboard design that have been incredibly helpful during the development process.
+- **YouTube Content Creators**: Channels such as [Joe Scotto](https://www.youtube.com/@joe_scotto) and [Ben Vallack](https://www.youtube.com/c/BenVallack) have offered detailed build guides, reviews, and deep dives into keyboard design that have been incredibly helpful during the development process.
 
 - **Online Keyboard Communities**: Platforms like [r/MechanicalKeyboards](https://www.reddit.com/r/MechanicalKeyboards/) on Reddit, and forums like [Geekhack](https://geekhack.org/), have provided a wealth of information and community support that was crucial in overcoming challenges during the project.
 
