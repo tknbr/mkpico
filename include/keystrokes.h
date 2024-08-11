@@ -12,6 +12,7 @@ typedef struct keystroke_e {
 
 QueueHandle_t keystroke_queue;
 
+// Keystrokes main task, to be executed by FreeRTOS scheduler periodically
 void keystrokes_task(void *pvParameters);
 
 #endif // _KEYSTROKES_H

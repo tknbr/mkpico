@@ -42,8 +42,10 @@ typedef struct I2C_PACKET_CRC_e {
 
 #if defined(COMM_INTERNAL_I2C_CONTROLLER)
 
+// Comm internal send keystroke
 void comm_internal_controller_send(keystroke_t *keystroke);
 
 #endif // COMM_INTERNAL_I2C_CONTROLLER
 
+// Comm internal initialization, to be executed at startup
 void comm_internal_init();
