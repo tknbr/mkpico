@@ -38,6 +38,67 @@ The MKPico project is organized into several key directories, each serving a spe
     - **Logic of Layers and Key Map**: Implements the functionality for keyboard layers and key mapping, allowing users to define multiple layouts and switch between them dynamically.
     - **Keystrokes Handling**: Processes key presses and releases, manages debouncing, and ensures accurate and responsive input detection.
 
+  
+## Getting started
+
+This section guides you through setting up the environment to work with FreeRTOS and the Raspberry Pi Pico SDK.
+
+### 1. Clone FreeRTOS Repository
+
+First, clone the FreeRTOS kernel repository:
+
+```bash
+git clone https://github.com/FreeRTOS/FreeRTOS-Kernel.git
+cd FreeRTOS-Kernel
+```
+
+And move to the smp branch that supports multiple core:
+
+```bash
+git checkout -t remotes/origin/smp
+git submodule update --init
+```
+
+### 2. Clone Pico SDK Repository
+
+Second, clone the Pico SDK repository:
+
+```bash
+git clone https://github.com/raspberrypi/pico-sdk.git
+cd pico-sdk
+git submodule update --init
+```
+
+### 3. Set environment variables 
+
+Set environment variables to point to the FreeRTOS and Pico SDK directories:
+
+```bash
+export FREERTOS_KERNEL_PATH=/path/to/FreeRTOS-Kernel
+export PICO_SDK_PATH=/path/to/pico-sdk
+```
+
+### 4. Initialize project code
+
+Now, clone your project repository and initialize it.
+
+```bash
+cd /path/to/your/workspace
+git clone https://github.com/tknbr/mkpico.git
+cd mkpico
+git submodule update --init
+```
+
+### 5. Set up CMake and Build the Project
+
+You can now set up CMake and build the project:
+
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
 
 ## Acknowledgements
 
