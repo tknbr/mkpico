@@ -22,12 +22,15 @@
 // Report size defined by tinyUSB
 #define KEY_REPORT_SIZE 6
 
+// Modifier global
+uint8_t modifier;
 
 void comm_external_init(void)
 {
     board_init();
     tusb_init();
     comm_external_queue = xQueueCreate(QUEUE_DEF_SIZE, sizeof(uint8_t));
+    modifier = 0;
 }
 
 bool comm_external_key_exists_in_report(uint8_t *key, int index)
@@ -73,7 +76,7 @@ bool comm_external_key_received(uint8_t *key)
 bool comm_external_send_usb(uint8_t *key)
 {
     uint8_t key_report[6] = {0};
-    uint8_t modifier = 0;
+    bool default_key = false;
     
     for (int i = 0; i < KEY_REPORT_SIZE; ++i)
     {
@@ -88,13 +91,21 @@ bool comm_external_send_usb(uint8_t *key)
             case K_ALT:
                 modifier |= MOD_ALT;
                 break;
+            case 0:
+                break;
             default:
+                default_key = true;
                 key_report[i] = key[i];
                 break;
         }
     }
 
-    return tud_hid_keyboard_report(0, modifier, key_report);
+    if (default_key == true) {
+        tud_hid_keyboard_report(0, modifier, key_report);
+        modifier = 0;
+    }
+
+    return true;
 }
 
 bool comm_external_clear_usb_report(void)
