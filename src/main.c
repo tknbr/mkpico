@@ -9,7 +9,6 @@
 #include <stdio.h>
 
 // Project includes
-#include "keyboard_internal.h"
 #include "keystrokes.h"
 #include "task_internal.h"
 #include "brain.h"

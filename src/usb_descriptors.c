@@ -50,8 +50,8 @@ uint8_t const desc_configuration[] = {
 // String Descriptors
 char const* string_desc_arr[] = {
     (const char[]) { 0x09, 0x04 }, // Supported language (English - 0x0409)
-    "TinyUSB",                     // Manufacturer string
-    "TinyUSB Device",              // Product string
+    "Tknbr",                       // Manufacturer string
+    "Selenium S",                  // Product string
     "123456",                      // Serial number string
 };
 
