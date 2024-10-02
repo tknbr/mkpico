@@ -35,6 +35,10 @@ The `config` folder is dedicated to holding all the configuration settings for t
   - **gpios.h:** Defines the GPIOs associated with each column and row of the keyboard matrix. This file maps the physical layout of the keyboard to the microcontroller's GPIO pins.
   - **keymap.h:** Provides the layout of the rows and columns, linking the physical keyboard matrix to the logical keymap.
   - **keymap.c:** Contains the definition of the keyboard's layout and the specific location of each key. This file is where the actual key mappings (e.g., which key corresponds to which row/column) are defined.
+  - **pcb:** this folder contains the schematic and pcb files for the keyboard.
+
+  ![selenium s pcb](../img/selenium_s_pcb.jpg)  
+  <center>Selenium s (34 keys split mechanical keyboard) pcb</center>
 
 ### Summary
 
