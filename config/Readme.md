@@ -37,7 +37,7 @@ The `config` folder is dedicated to holding all the configuration settings for t
   - **keymap.c:** Contains the definition of the keyboard's layout and the specific location of each key. This file is where the actual key mappings (e.g., which key corresponds to which row/column) are defined.
   - **pcb:** this folder contains the schematic and pcb files for the keyboard.
 
-  ![selenium s pcb](../../img/selenium_s_pcb.jpg)  
+  ![selenium s pcb](../../main/img/selenium_s_pcb.png)  
   <center>Selenium s (34 keys split mechanical keyboard) pcb</center>
 
 ### Summary
